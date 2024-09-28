@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- This controls the name of the tab -->
+    <title>
+      Personal Website - {% block title %}{% endblock title %}
+    </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- Create a function that updates the active tab in the navigation sidebar based on the URL -->
+    <script>
+      function nth_occurrence(string, char, nth) {
+        var first_index = string.indexOf(char);
+        var length_up_to_first_index = first_index + 1;
+
+        if (nth == 1) {
+            return first_index;
+        } else {
+          var string_after_first_occurrence = string.slice(length_up_to_first_index);
+          var next_occurrence = nth_occurrence(string_after_first_occurrence, char, nth - 1);
+
+          if (next_occurrence === -1) {
+            return -1;
+          } else {
+            return length_up_to_first_index + next_occurrence;
+          }
+        }
+      }
+
+      jQuery(function($) {
+        var path = window.location.href;
+        // because the 'href' property of the DOM element is the absolute path
+        $('div a').each(function() {
+          var end_idx = nth_occurrence(path, '/', 4);
+          if (end_idx != -1) {
+            path = path.slice(0, end_idx);
+          }
+          console.log(path);
+
+          if (this.href === path) {
+            $(this).addClass('active');
+          }
+        });
+      });
+    </script>
+    <!-- Import the Firs Sans font -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Display the sidebar -->
+    {% include("_sidebar.html") %}
+    <div class="content">
+      <section>
+        <header>
+          {% block header %}{% endblock header %}
+        </header>
+        <main>
+          {% block content %}<p>No messages.</p>{% endblock content %}
+        </main>
+      </section>
+    </div>
+  </body>
+</html>

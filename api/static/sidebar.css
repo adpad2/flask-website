@@ -1,0 +1,160 @@
+/****************************************
+ ************ STATIC STYLING ************
+ ****************************************/
+/* Hide the names of the tabs in the sidebar by default */
+.sidebar .tab .tab-name, .sidebar .dropdown-tab .tab-name {
+  opacity: 0;
+  display: inline;
+}
+
+/* Fix the size of each section in the sidebar */
+.sidebar .tab {
+  height: 25px;
+}
+
+/* Styling for the sidebar */
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 57px;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 97%;
+  transition: 0.5s;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  border-radius: 10px;
+}
+
+/* Hide the sidebar's vertical scrollbar while still allowing the user to scroll */
+.sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Styling for each main tab in the sidebar */
+.sidebar .tab {
+  display: block;
+  color: black;
+  font-size: 20px;
+  padding: 16px;
+  text-decoration: none;
+}
+
+/* Styling for each dropdown tab in the sidebar */
+.sidebar .dropdown-tab {
+  display: none;
+  color: black;
+  font-size: 16px;
+  padding: 16px;
+  text-decoration: none;
+  padding-left: 30px;
+}
+
+/* Styling for the page content including pushing it to the right to make space for the sidebar */
+div.content {
+  margin-left: 55px;
+  padding: 1px 40px;
+  height: 1000px;
+  transition: 0.5s;
+}
+
+/* Set the global font to Times New Roman */
+html * {
+  font-family: 'Fira Sans', sans-serif;
+}
+
+/* Style the caret in dropdowns to be to the far right and not show by default */
+.fa-caret-right {
+  opacity: 0;
+  display: inline;
+}
+
+/****************************************
+ *********** DYNAMIC STYLING ************
+ ****************************************/
+/* Expand the sidebar when the user hovers on it */
+.sidebar:hover {
+  width: 200px;
+}
+
+/* Push the main content to the right so it isn't covered when the user hovers on the sidebar */
+.sidebar:hover ~ div.content {
+  margin-left: 200px;
+}
+
+/* When the user hovers on the sidebar, slowly display the names of the tabs */
+.sidebar:hover .tab > .tab-name {
+  opacity: 1;
+  transition: 0.2s;
+  transition-delay: 0.3s;
+  transition-property: opacity;
+}
+
+/* When the user hovers on the sidebar, slowly display the arrow for dropdown tabs */
+.sidebar:hover .tab > .fa-caret-right {
+  position: absolute;
+  right: 20px;
+  opacity: 1;
+  transition: 0.2s;
+  transition-delay: 0.3s;
+  transition-property: opacity;
+}
+
+.sidebar .dropdown:hover .fa-caret-right {
+  rotate: 90deg;
+  transition: 0.5s;
+  transition-property: rotate;
+}
+
+/* Style the active tab with a navy blue background and white text */
+.sidebar .tab.active {
+  background-color: #202A44;
+  color: white;
+}
+
+/* Highlight the tab the user hovers on with a gray background */
+.sidebar .tab:hover:not(.active), .sidebar .dropdown .dropdown-tab:hover {
+  background-color: #666;
+  color: white;
+}
+
+/* Display the dropdown tabs when the user hovers over a dropdown */
+.sidebar .dropdown:hover .dropdown-tab {
+  display: block;
+}
+
+/* Highlight the entire dropdown section light-gray when the user hovers over it */
+.sidebar .dropdown:hover {
+  background-color: #bbb;
+  color: white;
+}
+
+/* Reveal the tab name when the user opens a dropdown */
+.sidebar .dropdown:hover .dropdown-tab .tab-name {
+  opacity: 1;
+  transition: 0.2s;
+  transition-delay: 0.3s;
+  transition-property: opacity;
+}
+
+/****************************************
+ ******** SMALLER SCREEN STYLING ********
+ ****************************************/
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h2>{% block title %}Athlete ProGAN{% endblock title %}</h2>
+{% endblock header %}
+
+{% block content %}
+  <p>Athlete ProGAN placeholder</p>
+  <form id="generate-form" action="/generate" method="POST">
+    <label for="team">Team:</label>
+    <select id="team" name="team">
+      <option value="any">Any</option>
+      <option value="BUF">Buffalo Bills</option>
+      <option value="BAL">Baltimore Ravens</option>
+      <option value="NE-2">New England Patriots</option>
+    </select>
+    <br>
+    <label for="skin-tone">Skin Tone:</label>
+    <select id="skin-tone" name="skin-tone">
+      <option value="any">Any</option>
+      <option value="very-fair">Very Fair</option>
+      <option value="fair">Fair</option>
+      <option value="neutral">Neutral</option>
+      <option value="dark">Dark</option>
+      <option value="very-dark">Very Dark</option>
+    </select>
+    <br>
+    <label for="build">Build:</label>
+    <select id="build" name="build">
+      <option value="any">Any</option>
+      <option value="light">Light</option>
+      <option value="medium">Medium</option>
+      <option value="heavy">Heavy</option>
+    </select>
+    <br>
+    <button type="submit">Generate Image</button>
+  </form>
+  <img id="generated-image" src="" style="display:none;">
+  <script>
+    document.getElementById('generate-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent the default form submission
+      const formData = new FormData(document.getElementById('generate-form'));
+
+      fetch('/generate', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const img = document.getElementById('generated-image');
+        img.src = url;
+        img.style.display = 'block';
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
+{% endblock content %}

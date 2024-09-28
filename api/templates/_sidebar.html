@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="{{url_for('static', filename='sidebar.css')}}">
+<!-- Load an icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Create the sidebar -->
+<div class="sidebar">
+  <a href="/home" id="home" class="tab"><i class="fa fa-fw fa-home"></i> <div class="tab-name">Home</div></a>
+  <div class="dropdown">
+    <a href="/projects" id="projects" class="tab"><i class="fa fa-fw fa-laptop"></i> <div class="tab-name">Projects</div><i class="fa fa-caret-right"></i></a>
+    <a href="/projects/athlete_progan" id="athlete_progan" class="dropdown-tab"><div class="tab-name">Athelete ProGAN</div></a>
+    <a href="/projects/map_generator" id="map_generator" class="dropdown-tab"><div class="tab-name">Map Generator</div></a>
+    <a href="/projects/football_simulator" id="football_simulator" class="dropdown-tab"><div class="tab-name">Football Simulator</div></a>
+  </div>
+  <a href="/experience" id="experience" class="tab"><i class="fa fa-fw fa-briefcase"></i> <div class="tab-name">Experience</div></a>
+  <a href="/skills" id="skills" class="tab"><i class="fa fa-fw fa-book"></i> <div class="tab-name">Skills</div></a>
+  <a href="/resume" id="resume" class="tab"><i class="fa fa-fw fa-file"></i> <div class="tab-name">Resume</div></a>
+  <a href="/contact" id="contact" class="tab"><i class="fa fa-fw fa-envelope"></i> <div class="tab-name">Contact</div></a>
+</div>
