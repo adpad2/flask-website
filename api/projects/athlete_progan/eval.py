@@ -2,7 +2,6 @@ from model import Generator
 import torch
 import random
 import os
-from scipy.stats import truncnorm
 
 def gen_images(team, skin_tone, build):
     num_images = 9
