@@ -1,7 +1,6 @@
 from flask import Flask, render_template, redirect, request
 import numpy as np
 from PIL import Image
-from projects.athlete_progan.eval import gen_images
 
 app = Flask(__name__)
 
