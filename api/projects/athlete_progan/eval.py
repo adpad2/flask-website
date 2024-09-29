@@ -1,4 +1,4 @@
-from model import Generator
+from api.projects.athlete_progan.model import Generator
 import torch
 import random
 import os
