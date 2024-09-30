@@ -2,9 +2,12 @@ from flask import Flask, render_template, redirect, request, send_file
 import numpy as np
 from PIL import Image
 from api.projects.athlete_progan.eval import gen_images
+from api.init import init_generator
 import io
 
 app = Flask(__name__)
+
+netG = init_generator('api/projects/athlete_progan/generator.pth')
 
 @app.route("/")
 def start():
@@ -53,7 +56,7 @@ def generate():
     build = request.form.get('build')
 
     # Generate image using your model
-    images = gen_images(team, skin_tone, build)
+    images = gen_images(netG, team, skin_tone, build)
     img1 = images[0]
     img1 = img1.detach().numpy()
     img1 = np.transpose(img1, (1, 2, 0))
