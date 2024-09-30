@@ -1,9 +1,10 @@
-from flask import Flask, render_template, redirect, request, send_file
+from flask import Flask, render_template, redirect, request, send_file, jsonify
 import numpy as np
 from PIL import Image
 from api.projects.athlete_progan.eval import gen_images, TEAMS, TEAM_NAMES, BUILDS, SKIN_TONES
 from api.init import init_generator
 import io
+import base64
 
 app = Flask(__name__)
 
@@ -58,18 +59,20 @@ def generate():
     team = request.form.get('team')
     skin_tone = request.form.get('skin-tone')
     build = request.form.get('build')
+    selected_image_ids = request.form.getlist('ids[]')
 
-    # Generate image using your model
-    images = gen_images(netG, team, skin_tone, build, 1)
-    img1 = images[0]
-    img1 = img1.detach().numpy()
-    img1 = np.transpose(img1, (1, 2, 0))
-    img1 = ((img1 * 0.5 + 0.5) * 255).astype(np.uint8)
-    pil_image = Image.fromarray(img1)
+    images = gen_images(netG, team, skin_tone, build, len(selected_image_ids))
+    images = images.detach().numpy()
+    images = np.transpose(images, (0, 2, 3, 1))
+    images = (images * 0.5 + 0.5) * 255
+    images = images.astype(np.uint8)
 
-    # Save the image to an in-memory buffer
-    img_io = io.BytesIO()
-    pil_image.save(img_io, 'PNG')
-    img_io.seek(0)
+    images_dict = {}
+    for i, selected_image_id in enumerate(selected_image_ids):
+        pil_image = Image.fromarray(images[i])
+        image_io = io.BytesIO()
+        pil_image.save(image_io, 'PNG')
+        image_io.seek(0)
+        images_dict[selected_image_id] = base64.b64encode(image_io.read()).decode('utf-8')
 
-    return send_file(img_io, mimetype='image/png')
+    return jsonify(images_dict)

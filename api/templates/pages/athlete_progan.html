@@ -46,17 +46,23 @@
   <script>
     document.getElementById('generate-form').addEventListener('submit', function(event) {
       event.preventDefault(); // Prevent the default form submission
+      const selectedImages = document.querySelectorAll('.selected-image');
+      const selectedImageIds = Array.from(selectedImages).map(item => item.id);
+
       const formData = new FormData(document.getElementById('generate-form'));
+      selectedImageIds.forEach(id => formData.append('ids[]', id))
 
       fetch('/generate', {
         method: 'POST',
         body: formData
       })
-      .then(response => response.blob())
-      .then(blob => {
-        const url = URL.createObjectURL(blob);
-        const img = document.getElementById('generated-image-1');
-        img.src = url;
+      .then(response => response.json())
+      .then(data => {
+        selectedImageIds.forEach(id => {
+          const imgData = data[id];
+          const img = document.getElementById(id);
+          img.src = `data:image/png;base64,${imgData}`;
+        });
       })
       .catch(error => console.error('Error:', error));
     });
