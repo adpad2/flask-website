@@ -2,6 +2,7 @@ from api.projects.athlete_progan.model import Generator
 import torch
 import random
 import os
+from scipy.stats import truncnorm
 
 def gen_images(team, skin_tone, build):
     num_images = 9
@@ -38,7 +39,7 @@ def gen_images(team, skin_tone, build):
     flattened_noise = truncnorm.rvs(-1, 1, size=num_images * 32)
     noise = torch.tensor(flattened_noise, dtype=torch.float).view((num_images, 32, 1, 1))
 
-    generator_path = 'generator.pth'
+    generator_path = 'api/projects/athlete_progan/generator.pth'
     netG = Generator(32, 256, 16)
     netG.load_state_dict(torch.load(generator_path))
 
