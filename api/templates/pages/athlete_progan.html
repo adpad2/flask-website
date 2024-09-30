@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
+  <link rel="stylesheet" href="{{url_for('static', filename='athlete_progan.css')}}">
   <h2>{% block title %}Athlete ProGAN{% endblock title %}</h2>
 {% endblock header %}
 
@@ -11,7 +12,7 @@
     <select id="team" name="team">
       <!-- Automatically create the dropdown for teams -->
       {% for team, team_name in zipped_teams %}
-        <option value="{{ team }}">{{ team_name }}</option>
+        <option value="{{team}}">{{team_name}}</option>
       {% endfor %}
     </select>
     <br>
@@ -19,7 +20,7 @@
     <select id="skin-tone" name="skin-tone">
       <!-- Automatically create the dropdown for skin tones -->
       {% for skin_tone, skin_tone_name in zipped_skin_tones %}
-        <option value="{{ skin_tone }}">{{ skin_tone_name }}</option>
+        <option value="{{skin_tone}}">{{skin_tone_name}}</option>
       {% endfor %}
     </select>
     <br>
@@ -27,13 +28,21 @@
     <select id="build" name="build">
       <!-- Automatically create the dropdown for builds -->
       {% for build, build_name in zipped_builds %}
-        <option value="{{ build }}">{{ build_name }}</option>
+        <option value="{{build}}">{{build_name}}</option>
       {% endfor %}
     </select>
     <br>
     <button type="submit">Generate Image</button>
   </form>
-  <img id="generated-image" src="" style="display:none;">
+<!-- Create a grid of images -->
+  <div class="grid-container">
+    {% for i in range(1, 9) %}
+      <div id="grid-item-{{i}}" class="grid-item">
+        <img id="generated-image-{{i}}" src="{{url_for('static', filename='assets/blank_image.png')}}" class="generated-image"
+             onclick="document.getElementById('generated-image-{{i}}').classList.toggle('selected-image');">
+      </div>
+    {% endfor %}
+  </div>
   <script>
     document.getElementById('generate-form').addEventListener('submit', function(event) {
       event.preventDefault(); // Prevent the default form submission
@@ -46,9 +55,8 @@
       .then(response => response.blob())
       .then(blob => {
         const url = URL.createObjectURL(blob);
-        const img = document.getElementById('generated-image');
+        const img = document.getElementById('generated-image-1');
         img.src = url;
-        img.style.display = 'block';
       })
       .catch(error => console.error('Error:', error));
     });
