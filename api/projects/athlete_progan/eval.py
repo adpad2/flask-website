@@ -20,8 +20,7 @@ TEAM_NAMES = ['Arizona Cardinals (1)', 'Arizona Cardinals (2)', 'Atlanta Falcons
 BUILDS = ['light', 'medium', 'heavy']
 SKIN_TONES = ['very-dark', 'dark', 'neutral', 'fair', 'very-fair']
 
-def gen_images(netG, team, skin_tone, build):
-    num_images = 9
+def gen_images(netG, team, skin_tone, build, num_images):
     bg_tile = 20
     upscale_factor = 2
 
@@ -49,4 +48,7 @@ def gen_images(netG, team, skin_tone, build):
     noise = torch.tensor(flattened_noise, dtype=torch.float).view((num_images, 32, 1, 1))
 
     fake = netG(noise, team_tensor, build_tensor, skin_tone_tensor, alpha=1, image_size=image_size)
+    # Crop 5 pixels from the top, 6 pixels from the bottom, and 14 pixels from either side. This removes the
+    # black border and returns a 117x100 image.
+    fake = fake[:, :, 5:-6, 14:-14]
     return fake

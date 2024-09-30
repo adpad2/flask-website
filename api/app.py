@@ -60,7 +60,7 @@ def generate():
     build = request.form.get('build')
 
     # Generate image using your model
-    images = gen_images(netG, team, skin_tone, build)
+    images = gen_images(netG, team, skin_tone, build, 1)
     img1 = images[0]
     img1 = img1.detach().numpy()
     img1 = np.transpose(img1, (1, 2, 0))
