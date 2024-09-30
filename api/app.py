@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, request, send_file
 import numpy as np
 from PIL import Image
-from api.projects.athlete_progan.eval import gen_images
+from api.projects.athlete_progan.eval import gen_images, TEAMS, TEAM_NAMES, BUILDS, SKIN_TONES
 from api.init import init_generator
 import io
 
@@ -23,7 +23,11 @@ def projects():
 
 @app.route("/projects/athlete_progan")
 def athlete_progan():
-    return render_template("pages/athlete_progan.html")
+    zipped_teams = zip(['any'] + TEAMS, ['Any'] + TEAM_NAMES)
+    zipped_builds = zip(['any'] + BUILDS, ['Any'] + [build.replace('-', ' ').title() for build in BUILDS])
+    zipped_skin_tones = zip(['any'] + SKIN_TONES, ['Any'] + [skin_tone.replace('-', ' ').title() for skin_tone in SKIN_TONES])
+    return render_template("pages/athlete_progan.html", zipped_teams=zipped_teams,
+                           zipped_builds=zipped_builds, zipped_skin_tones=zipped_skin_tones)
 
 @app.route("/projects/map_generator")
 def map_generator():
