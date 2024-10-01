@@ -1,14 +1,30 @@
-from flask import Flask, render_template, redirect, request, send_file, jsonify
+from flask import Flask, render_template, redirect, request, jsonify
 import numpy as np
 from PIL import Image
 from api.projects.athlete_progan.eval import gen_images, TEAMS, TEAM_NAMES, BUILDS, SKIN_TONES
 from api.init import init_generator
 import io
 import base64
+import threading
+import time
+import requests
 
 app = Flask(__name__)
 
 netG = init_generator('api/projects/athlete_progan/generator.pth')
+
+def ping():
+    # Continuously ping the server to prevent the site from spinning down
+    url = "https://flask-website-8fy3.onrender.com"
+    while True:
+        try:
+            response = requests.get(url)
+        except Exception as e:
+            print(f"Failed to ping {url}: {e}")
+        time.sleep(600)  # Ping every 10 minutes
+
+# Start the ping function in a background thread
+threading.Thread(target=ping, daemon=True).start()
 
 @app.route("/")
 def start():
