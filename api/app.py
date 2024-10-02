@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, request, jsonify
+"""
 import numpy as np
 from PIL import Image
 from api.projects.athlete_progan.eval import gen_images, TEAMS, TEAM_NAMES, BUILDS, SKIN_TONES
@@ -8,10 +9,11 @@ import base64
 import threading
 import time
 import requests
+"""
 
 app = Flask(__name__)
 
-netG = init_generator('api/projects/athlete_progan/generator.pth')
+#netG = init_generator('api/projects/athlete_progan/generator.pth')
 
 """
 def ping():
@@ -36,6 +38,7 @@ def start():
 def home():
     return render_template("pages/home.html")
 
+"""
 @app.route("/projects")
 def projects():
     return render_template("pages/projects.html")
@@ -71,7 +74,9 @@ def resume():
 @app.route("/contact")
 def contact():
     return render_template("pages/contact.html")
+"""
 
+"""
 @app.route('/generate', methods=['POST'])
 def generate():
     team = request.form.get('team')
@@ -94,3 +99,4 @@ def generate():
         images_dict[selected_image_id] = base64.b64encode(image_io.read()).decode('utf-8')
 
     return jsonify(images_dict)
+"""
