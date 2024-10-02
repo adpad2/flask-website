@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, jsonify
-"""
+
 import numpy as np
 from PIL import Image
 from api.projects.athlete_progan.eval import gen_images, TEAMS, TEAM_NAMES, BUILDS, SKIN_TONES
@@ -9,7 +9,6 @@ import base64
 import threading
 import time
 import requests
-"""
 
 app = Flask(__name__)
 
