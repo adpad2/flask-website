@@ -2,8 +2,8 @@ from flask import Flask, render_template, redirect, request, jsonify
 
 import numpy as np
 from PIL import Image
-from api.projects.athlete_progan.eval import gen_images, TEAMS, TEAM_NAMES, BUILDS, SKIN_TONES
-from api.init import init_generator
+#from api.projects.athlete_progan.eval import gen_images, TEAMS, TEAM_NAMES, BUILDS, SKIN_TONES
+#from api.init import init_generator
 import io
 import base64
 import threading
