@@ -28,21 +28,21 @@ def gen_images(netG, team, skin_tone, build, num_images):
 
     if team != 'any':
         team_idx = TEAMS.index(team)
-        team_tensor = torch.tensor([team_idx] * num_images)
+        team_tensor = torch.tensor([team_idx] * num_images, dtype=torch.int)
     else:
-        team_tensor = torch.tensor([random.randint(0, len(TEAMS) - 1) for i in range(num_images)])
+        team_tensor = torch.tensor([random.randint(0, len(TEAMS) - 1) for i in range(num_images)], dtype=torch.int)
 
     if build != 'any':
         build_idx = BUILDS.index(build)
-        build_tensor = torch.tensor([build_idx] * num_images)
+        build_tensor = torch.tensor([build_idx] * num_images, dtype=torch.int)
     else:
-        build_tensor = torch.tensor([random.randint(0, len(BUILDS) - 1) for i in range(num_images)])
+        build_tensor = torch.tensor([random.randint(0, len(BUILDS) - 1) for i in range(num_images)], dtype=torch.int)
 
     if skin_tone != 'any':
         skin_tone_idx = SKIN_TONES.index(skin_tone)
-        skin_tone_tensor = torch.tensor([skin_tone_idx] * num_images)
+        skin_tone_tensor = torch.tensor([skin_tone_idx] * num_images, dtype=torch.int)
     else:
-        skin_tone_tensor = torch.tensor([random.randint(0, len(SKIN_TONES) - 1) for i in range(num_images)])
+        skin_tone_tensor = torch.tensor([random.randint(0, len(SKIN_TONES) - 1) for i in range(num_images)], dtype=torch.int)
 
     flattened_noise = truncnorm.rvs(-1, 1, size=num_images * 32)
     noise = torch.tensor(flattened_noise, dtype=torch.float).view((num_images, 32, 1, 1))
