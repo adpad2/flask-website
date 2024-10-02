@@ -13,6 +13,7 @@ app = Flask(__name__)
 
 netG = init_generator('api/projects/athlete_progan/generator.pth')
 
+"""
 def ping():
     # Continuously ping the server to prevent the site from spinning down
     url = "https://flask-website-8fy3.onrender.com"
@@ -25,6 +26,7 @@ def ping():
 
 # Start the ping function in a background thread
 threading.Thread(target=ping, daemon=True).start()
+"""
 
 @app.route("/")
 def start():
