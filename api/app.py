@@ -72,6 +72,7 @@ def resume():
 def contact():
     return render_template("pages/contact.html")
 
+"""
 @app.route('/generate', methods=['POST'])
 def generate():
     team = request.form.get('team')
@@ -94,3 +95,4 @@ def generate():
         images_dict[selected_image_id] = base64.b64encode(image_io.read()).decode('utf-8')
 
     return jsonify(images_dict)
+"""
