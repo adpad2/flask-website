@@ -11,7 +11,7 @@ import requests
 
 app = Flask(__name__)
 
-netG = init_generator('api/projects/athlete_progan/generator.pth')
+#netG = init_generator('api/projects/athlete_progan/generator.pth')
 
 """
 def ping():
