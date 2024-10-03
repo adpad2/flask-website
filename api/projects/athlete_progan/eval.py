@@ -1,7 +1,8 @@
 import torch
 import random
 import os
-from scipy.stats import truncnorm
+import numpy as np
+#from scipy.stats import truncnorm
 
 TEAMS = ['ARI', 'ARI-2', 'ATL', 'BAL', 'BUF', 'CAR', 'CHI', 'CIN', 'CLE', 'DAL', 'DEN',
          'DET', 'GB', 'HOU', 'IND', 'JAX', 'JAX-2', 'KC', 'MIA', 'MIN', 'NE', 'NE-2',
@@ -44,7 +45,8 @@ def gen_images(netG, team, skin_tone, build, num_images):
     else:
         skin_tone_tensor = torch.tensor([random.randint(0, len(SKIN_TONES) - 1) for i in range(num_images)], dtype=torch.int)
 
-    flattened_noise = truncnorm.rvs(-1, 1, size=num_images * 32)
+    #flattened_noise = truncnorm.rvs(-1, 1, size=num_images * 32)
+    flattened_noise = np.clip(np.random.normal(0, 1, size=num_images * 32), -1, 1)
     noise = torch.tensor(flattened_noise, dtype=torch.float).view((num_images, 32, 1, 1))
 
     fake = netG(noise.detach(), team_tensor.detach(), build_tensor.detach(), skin_tone_tensor.detach(),
