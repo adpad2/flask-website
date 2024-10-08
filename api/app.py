@@ -6,26 +6,8 @@ from api.projects.athlete_progan.eval import gen_images, TEAMS, TEAM_NAMES, BUIL
 from api.init import init_generator
 import io
 import base64
-import threading
-import time
-import requests
 
 app = Flask(__name__)
-
-"""
-def ping():
-    # Continuously ping the server to prevent the site from spinning down
-    url = "https://flask-website-8fy3.onrender.com"
-    while True:
-        try:
-            response = requests.get(url)
-        except Exception as e:
-            print(f"Failed to ping {url}: {e}")
-        time.sleep(600)  # Ping every 10 minutes
-
-# Start the ping function in a background thread
-threading.Thread(target=ping, daemon=True).start()
-"""
 
 @app.route("/")
 def start():
@@ -41,6 +23,7 @@ def projects():
 
 @app.route("/projects/athlete_progan")
 def athlete_progan():
+    # Create zipped versions of property name and display name and send them to the HTML renderer
     zipped_teams = zip(['any'] + TEAMS, ['Any'] + TEAM_NAMES)
     zipped_builds = zip(['any'] + BUILDS, ['Any'] + [build.replace('-', ' ').title() for build in BUILDS])
     zipped_skin_tones = zip(['any'] + SKIN_TONES, ['Any'] + [skin_tone.replace('-', ' ').title() for skin_tone in SKIN_TONES])
@@ -74,23 +57,29 @@ def contact():
 @app.route('/generate', methods=['POST'])
 def generate():
     if 'netG' not in current_app.config:
+        # If the generator hasn't been loaded yet, then load it
         netG = init_generator('api/projects/athlete_progan/generator.pth')
         current_app.config['netG'] = netG
     else:
         netG = current_app.config['netG']
 
+    # From the request form, receive the user's inputs
     team = request.form.get('team')
     skin_tone = request.form.get('skin-tone')
     build = request.form.get('build')
     selected_image_ids = request.form.getlist('ids[]')
 
+    # Generate a batch of random images
     images = gen_images(netG, team, skin_tone, build, len(selected_image_ids))
     images = images.detach().numpy()
     images = np.transpose(images, (0, 2, 3, 1))
+
+    # Convert the generated images colour values from (-1, 1) to (0, 255)
     images = (images * 0.5 + 0.5) * 255
     images = images.astype(np.uint8)
 
     images_dict = {}
+    # Iterate over every selected image id and assign it a randomly generated image
     for i, selected_image_id in enumerate(selected_image_ids):
         pil_image = Image.fromarray(images[i])
         image_io = io.BytesIO()
@@ -98,4 +87,5 @@ def generate():
         image_io.seek(0)
         images_dict[selected_image_id] = base64.b64encode(image_io.read()).decode('utf-8')
 
+    # Return the dictionary of images as a JSOn
     return jsonify(images_dict)
