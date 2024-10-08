@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, jsonify
+from flask import Flask, render_template, redirect, request, jsonify, current_app
 
 import numpy as np
 from PIL import Image
@@ -11,7 +11,6 @@ import time
 import requests
 
 app = Flask(__name__)
-netG = None
 
 """
 def ping():
@@ -74,8 +73,11 @@ def contact():
 
 @app.route('/generate', methods=['POST'])
 def generate():
-    if netG is None:
+    if 'netG' not in current_app.config:
         netG = init_generator('api/projects/athlete_progan/generator.pth')
+        current_app.config['netG'] = netG
+    else:
+        netG = current_app.config['netG']
 
     team = request.form.get('team')
     skin_tone = request.form.get('skin-tone')
