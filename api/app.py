@@ -11,8 +11,7 @@ import time
 import requests
 
 app = Flask(__name__)
-
-netG = init_generator('api/projects/athlete_progan/generator.pth')
+netG = None
 
 """
 def ping():
@@ -75,6 +74,9 @@ def contact():
 
 @app.route('/generate', methods=['POST'])
 def generate():
+    if netG is None:
+        netG = init_generator('api/projects/athlete_progan/generator.pth')
+
     team = request.form.get('team')
     skin_tone = request.form.get('skin-tone')
     build = request.form.get('build')
