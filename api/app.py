@@ -2,8 +2,8 @@ from flask import Flask, render_template, redirect, request, jsonify, current_ap
 
 import numpy as np
 from PIL import Image
-from api.projects.athlete_progan.eval import gen_images, TEAMS, TEAM_NAMES, BUILDS, SKIN_TONES
-from api.init import init_generator
+from api.projects.athlete_progan.eval import gen_images, upscale_images, TEAMS, TEAM_NAMES, BUILDS, SKIN_TONES
+from api.init import init_generator, init_face_restorer
 import io
 import base64
 
@@ -81,11 +81,45 @@ def generate():
     images_dict = {}
     # Iterate over every selected image id and assign it a randomly generated image
     for i, selected_image_id in enumerate(selected_image_ids):
+        # Store the image for later access (e.g. upscaling that same image)
+        current_app.config[selected_image_id] = images[i]
+
         pil_image = Image.fromarray(images[i])
         image_io = io.BytesIO()
         pil_image.save(image_io, 'PNG')
         image_io.seek(0)
         images_dict[selected_image_id] = base64.b64encode(image_io.read()).decode('utf-8')
+
+    # Return the dictionary of images as a JSOn
+    return jsonify(images_dict)
+
+@app.route('/upscale', methods=['POST'])
+def upscale():
+    if 'face-restorer' not in current_app.config:
+        # If the face restorer hasn't been loaded yet, then load it
+        face_restorer = init_face_restorer()
+        current_app.config['face-restorer'] = face_restorer
+    else:
+        face_restorer = current_app.config['face-restorer']
+
+    # From the request form, receive the images the user selected
+    selected_image_ids = request.form.getlist('ids[]')
+
+    images_dict = {}
+    # Iterate over every selected image id and upscale its image
+    for i, selected_image_id in enumerate(selected_image_ids):
+        if selected_image_id in current_app.config:
+            np_image = current_app.config[selected_image_id]
+            if np_image.shape == (117, 100, 3):
+                # Only upscale the image if it exists and hasn't already been upscaled
+                upscaled_np_image = face_restorer.process(np_image, aligned=False)[0]
+                current_app.config[selected_image_id] = upscaled_np_image
+
+                pil_image = Image.fromarray(upscaled_np_image)
+                image_io = io.BytesIO()
+                pil_image.save(image_io, 'PNG')
+                image_io.seek(0)
+                images_dict[selected_image_id] = base64.b64encode(image_io.read()).decode('utf-8')
 
     # Return the dictionary of images as a JSOn
     return jsonify(images_dict)
