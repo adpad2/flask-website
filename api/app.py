@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, request, jsonify, current_ap
 
 import numpy as np
 from PIL import Image
-from api.projects.athlete_progan.eval import gen_images, upscale_images, TEAMS, TEAM_NAMES, BUILDS, SKIN_TONES
+from api.projects.athlete_progan.eval import gen_images, TEAMS, TEAM_NAMES, BUILDS, SKIN_TONES
 from api.init import init_generator, init_face_restorer
 import io
 import base64
