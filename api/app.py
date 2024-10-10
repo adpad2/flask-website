@@ -108,7 +108,7 @@ def upscale():
 
     images_dict = {}
     # Iterate over every selected image id and upscale its image
-    for i, selected_image_id in enumerate(selected_image_ids):
+    for selected_image_id in selected_image_ids:
         if selected_image_id in current_app.config:
             np_image = current_app.config[selected_image_id]
             if np_image.shape == (117, 100, 3):

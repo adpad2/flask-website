@@ -5,5 +5,10 @@
 {% endblock header %}
 
 {% block content %}
-  <p>Resume placeholder</p>
+  <style>
+    .pdfobject-container { height: 500px; border: 1px solid #ccc; }
+  </style>
+  <div id="my-pdf"></div>
+  <script src="https://unpkg.com/pdfobject"></script>
+  <script>PDFObject.embed("{{url_for('static', filename='assets/cs_resume.pdf')}}", "#my-pdf");</script>
 {% endblock content %}
