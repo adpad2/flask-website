@@ -19,7 +19,8 @@
   width: 57px;
   background-color: #f1f1f1;
   position: fixed;
-  height: 97%;
+  top: 70px;
+  height: 85%;
   transition: 0.5s;
   overflow-y: scroll;
   overflow-x: hidden;
