@@ -1,9 +1,41 @@
 {% extends 'base.html' %}
 
 {% block header %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <h2>{% block title %}Contact{% endblock title %}</h2>
 {% endblock header %}
 
 {% block content %}
-  <p>Contact placeholder</p>
+  <style>
+    .contact-info i {
+      color: white;
+      background-color: #202A44;
+      padding: 10px 5px;
+      border-radius: 35px;
+      font-size: 40px;
+      margin-right: 10px;
+    }
+
+    .contact-info {
+      display: flex;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+  <div class="contact-info">
+    <i class="fa fa-fw fa-at"></i>
+    <h3><a href="mailto:adarshkpadalia@gmail.com">adarshkpadalia@gmail.com</a></h3>
+  </div>
+  <div class="contact-info">
+    <i class="fa fa-fw fa-phone"></i>
+    <h3>+1-647-639-4913</h3>
+  </div>
+  <div class="contact-info">
+    <i class="fa fa-fw fa-github"></i>
+    <h3><a href="https://github.com/adpad2">github.com/adpad2</a></h3>
+  </div>
+  <div class="contact-info">
+    <i class="fa fa-fw fa-linkedin"></i>
+    <h3><a href="https://www.linkedin.com/in/adarsh-padalia/">linkedin.com/in/adarsh-padalia</a></h3>
+  </div>
 {% endblock content %}

@@ -6,9 +6,14 @@
 
 {% block content %}
   <style>
-    .pdfobject-container { height: 500px; border: 1px solid #ccc; }
+    .pdfobject-container {
+      height: 500px;
+      border: 1px solid #ccc;
+    }
   </style>
-  <div id="my-pdf"></div>
+  <div id="cs-resume"></div>
   <script src="https://unpkg.com/pdfobject"></script>
-  <script>PDFObject.embed("{{url_for('static', filename='assets/cs_resume.pdf')}}", "#my-pdf");</script>
+  <script>
+    PDFObject.embed("{{url_for('static', filename='assets/cs_resume.pdf')}}", "#cs-resume");
+  </script>
 {% endblock content %}
