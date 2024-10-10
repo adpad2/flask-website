@@ -6,6 +6,7 @@ from api.projects.athlete_progan.eval import gen_images, TEAMS, TEAM_NAMES, BUIL
 from api.init import init_generator, init_face_restorer
 import io
 import base64
+import cv2
 
 app = Flask(__name__)
 
@@ -113,6 +114,8 @@ def upscale():
             if np_image.shape == (117, 100, 3):
                 # Only upscale the image if it exists and hasn't already been upscaled
                 upscaled_np_image = face_restorer.process(np_image, aligned=False)[0]
+                # Downscale the image to be 234x200 to avoid artifacts
+                upscaled_np_image = cv2.resize(upscaled_np_image, (200, 234), interpolation=cv2.INTER_LINEAR)
                 current_app.config[selected_image_id] = upscaled_np_image
 
                 pil_image = Image.fromarray(upscaled_np_image)

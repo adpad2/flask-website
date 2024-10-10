@@ -14,7 +14,7 @@ from api.projects.athlete_progan.face_restorer.align_faces import warp_and_crop_
 
 class FaceEnhancement(object):
     def __init__(self, base_dir='./', in_size=512, out_size=None, model=None, use_sr=True, device='cpu', channel_multiplier=1,
-                 narrow=0.5, key=None, sr_model='realesrnet', sr_scale=2, tile_size=0, alpha=1):
+                 narrow=0.5, key=None, sr_model='realesrnet', sr_scale=4, tile_size=0, alpha=1):
         self.facedetector = RetinaFaceDetection(base_dir, device)
         self.facegan = FaceGAN(base_dir, in_size, out_size, model, channel_multiplier, narrow, key, device=device)
         self.srmodel = RealESRNet(base_dir, sr_model, sr_scale, tile_size, device=device)
