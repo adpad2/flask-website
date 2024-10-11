@@ -1,0 +1,5 @@
+/* Style the columsn in the table */
+.table-column {
+  float: left;
+  width: 25%;
+}

@@ -67,7 +67,7 @@
 
 /* Push the main content to the right so it isn't covered when the user hovers on the sidebar */
 .sidebar:hover ~ div.content {
-  margin-left: 200px;
+  margin-left: 243px;
 }
 
 /* When the user hovers on the sidebar, slowly display the names of the tabs */
