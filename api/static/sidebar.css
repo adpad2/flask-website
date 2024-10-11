@@ -51,19 +51,6 @@
   padding-left: 30px;
 }
 
-/* Styling for the page content including pushing it to the right to make space for the sidebar */
-div.content {
-  margin-left: 55px;
-  padding: 1px 40px;
-  height: 1000px;
-  transition: 0.5s;
-}
-
-/* Set the global font to Times New Roman */
-html * {
-  font-family: 'Fira Sans', sans-serif;
-}
-
 /* Style the caret in dropdowns to be to the far right and not show by default */
 .fa-caret-right {
   opacity: 0;

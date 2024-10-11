@@ -45,6 +45,7 @@
     <!-- Import the Firs Sans and Monteserrat fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='base.css')}}">
   </head>
   <body>
     <!-- Display the topbar -->
@@ -53,10 +54,10 @@
     {% include("_sidebar.html") %}
     <div class="content">
       <section>
-        <header style="position: absolute; top: 60px;">
+        <header style="position: absolute; top: 50px;">
           {% block header %}{% endblock header %}
         </header>
-        <main style="position: absolute; top: 110px;">
+        <main style="position: absolute; top: 140px;">
           {% block content %}<p>No messages.</p>{% endblock content %}
         </main>
       </section>

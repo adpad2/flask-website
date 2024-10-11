@@ -2,11 +2,64 @@
 
 {% block header %}
   <link rel="stylesheet" href="{{url_for('static', filename='athlete_progan.css')}}">
-  <h2>{% block title %}Athlete ProGAN{% endblock title %}</h2>
+  <h1>{% block title %}Athlete ProGAN{% endblock title %}</h1>
+  <script>
+      document.getElementById('generate-form').addEventListener('submit', function(event) {
+        // Prevent the default form submission
+        event.preventDefault();
+        // Store the value of the button that activated the submit event
+        var actionType = event.submitter.value;
+
+        // Determine the IDs of all the images the user selected
+        const selectedImages = document.querySelectorAll('.selected-image');
+        const selectedImageIds = Array.from(selectedImages).map(item => item.id);
+
+        const formData = new FormData(document.getElementById('generate-form'));
+        // For each selected image, add an entry in the form data
+        selectedImageIds.forEach(id => formData.append('ids[]', id))
+
+        if (actionType == "generate") {
+          // Send the form data to the generate function
+          fetch('/generate', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            // Display the images received from the generate function for each selected image ID
+            selectedImageIds.forEach(id => {
+              const imgData = data[id];
+              const img = document.getElementById(id);
+              img.src = `data:image/png;base64,${imgData}`;
+            });
+          })
+          .catch(error => console.error('Error:', error));
+        } else if (actionType == "upscale") {
+          // Send the form data to the upscale function
+          fetch('/upscale', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            // Display the images received from the generate function for each selected image ID
+            selectedImageIds.forEach(id => {
+              if (data.hasOwnProperty(id)) {
+                // If the selected image was successfully upscaled, display it
+                const imgData = data[id];
+                const img = document.getElementById(id);
+                img.src = `data:image/png;base64,${imgData}`;
+              }
+            });
+          })
+          .catch(error => console.error('Error:', error));
+        }
+      });
+    </script>
 {% endblock header %}
 
 {% block content %}
-  <p>Athlete ProGAN placeholder</p>
+  <!-- Create a form for the user to input their image generation specifications -->
   <form id="generate-form" method="POST">
     <label for="team">Team:</label>
     <select id="team" name="team">
@@ -44,57 +97,4 @@
       </div>
     {% endfor %}
   </div>
-  <script>
-    document.getElementById('generate-form').addEventListener('submit', function(event) {
-      // Prevent the default form submission
-      event.preventDefault();
-      // Store the value of the button that activated the submit event
-      var actionType = event.submitter.value;
-
-      // Determine the IDs of all the images the user selected
-      const selectedImages = document.querySelectorAll('.selected-image');
-      const selectedImageIds = Array.from(selectedImages).map(item => item.id);
-
-      const formData = new FormData(document.getElementById('generate-form'));
-      // For each selected image, add an entry in the form data
-      selectedImageIds.forEach(id => formData.append('ids[]', id))
-
-      if (actionType == "generate") {
-        // Send the form data to the generate function
-        fetch('/generate', {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-          // Display the images received from the generate function for each selected image ID
-          selectedImageIds.forEach(id => {
-            const imgData = data[id];
-            const img = document.getElementById(id);
-            img.src = `data:image/png;base64,${imgData}`;
-          });
-        })
-        .catch(error => console.error('Error:', error));
-      } else if (actionType == "upscale") {
-        // Send the form data to the upscale function
-        fetch('/upscale', {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-          // Display the images received from the generate function for each selected image ID
-          selectedImageIds.forEach(id => {
-            if (data.hasOwnProperty(id)) {
-              // If the selected image was successfully upscaled, display it
-              const imgData = data[id];
-              const img = document.getElementById(id);
-              img.src = `data:image/png;base64,${imgData}`;
-            }
-          });
-        })
-        .catch(error => console.error('Error:', error));
-      }
-    });
-  </script>
 {% endblock content %}

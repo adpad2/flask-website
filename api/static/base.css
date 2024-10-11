@@ -1,0 +1,15 @@
+/* Increase the size of all headers */
+h1 {
+  font-size: 40px;
+}
+
+/* Styling for the page content including pushing it to the right to make space for the sidebar */
+div.content {
+  margin-left: 100px;
+  transition: 0.5s;
+}
+
+/* Set the global font to Fira Sans */
+html * {
+  font-family: 'Fira Sans', sans-serif;
+}
