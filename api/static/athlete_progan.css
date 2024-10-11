@@ -1,6 +1,7 @@
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(4, 200px);
+  /* Arrange the image containers in rows of 5 */
+  grid-template-columns: repeat(5, 200px);
   column-gap: 10px;
   row-gap: 10px
 }

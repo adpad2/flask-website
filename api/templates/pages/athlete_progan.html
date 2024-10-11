@@ -3,6 +3,47 @@
 {% block header %}
   <link rel="stylesheet" href="{{url_for('static', filename='athlete_progan.css')}}">
   <h1>{% block title %}Athlete ProGAN{% endblock title %}</h1>
+{% endblock header %}
+
+{% block content %}
+  <!-- Create a form for the user to input their image generation specifications -->
+  <form id="generate-form" method="POST">
+    <label for="team">Team:</label>
+    <select id="team" name="team">
+      <!-- Automatically create the dropdown for teams -->
+      {% for team, team_name in zipped_teams %}
+        <option value="{{team}}">{{team_name}}</option>
+      {% endfor %}
+    </select>
+    <br>
+    <label for="skin-tone">Skin Tone:</label>
+    <select id="skin-tone" name="skin-tone">
+      <!-- Automatically create the dropdown for skin tones -->
+      {% for skin_tone, skin_tone_name in zipped_skin_tones %}
+        <option value="{{skin_tone}}">{{skin_tone_name}}</option>
+      {% endfor %}
+    </select>
+    <br>
+    <label for="build">Build:</label>
+    <select id="build" name="build">
+      <!-- Automatically create the dropdown for builds -->
+      {% for build, build_name in zipped_builds %}
+        <option value="{{build}}">{{build_name}}</option>
+      {% endfor %}
+    </select>
+    <br>
+    <button type="submit" value="generate">Generate Images</button>
+    <button type="submit" value="upscale">Upscale Images</button>
+  </form>
+  <!-- Create a grid of images -->
+  <div class="grid-container">
+    {% for i in range(1, 11) %}
+      <div id="grid-item-{{i}}" class="grid-item">
+        <img id="generated-image-{{i}}" src="{{url_for('static', filename='assets/blank_image.png')}}" class="generated-image"
+             onclick="document.getElementById('generated-image-{{i}}').classList.toggle('selected-image');">
+      </div>
+    {% endfor %}
+  </div>
   <script>
       document.getElementById('generate-form').addEventListener('submit', function(event) {
         // Prevent the default form submission
@@ -56,45 +97,4 @@
         }
       });
     </script>
-{% endblock header %}
-
-{% block content %}
-  <!-- Create a form for the user to input their image generation specifications -->
-  <form id="generate-form" method="POST">
-    <label for="team">Team:</label>
-    <select id="team" name="team">
-      <!-- Automatically create the dropdown for teams -->
-      {% for team, team_name in zipped_teams %}
-        <option value="{{team}}">{{team_name}}</option>
-      {% endfor %}
-    </select>
-    <br>
-    <label for="skin-tone">Skin Tone:</label>
-    <select id="skin-tone" name="skin-tone">
-      <!-- Automatically create the dropdown for skin tones -->
-      {% for skin_tone, skin_tone_name in zipped_skin_tones %}
-        <option value="{{skin_tone}}">{{skin_tone_name}}</option>
-      {% endfor %}
-    </select>
-    <br>
-    <label for="build">Build:</label>
-    <select id="build" name="build">
-      <!-- Automatically create the dropdown for builds -->
-      {% for build, build_name in zipped_builds %}
-        <option value="{{build}}">{{build_name}}</option>
-      {% endfor %}
-    </select>
-    <br>
-    <button type="submit" value="generate">Generate Images</button>
-    <button type="submit" value="upscale">Upscale Images</button>
-  </form>
-  <!-- Create a grid of images -->
-  <div class="grid-container">
-    {% for i in range(1, 9) %}
-      <div id="grid-item-{{i}}" class="grid-item">
-        <img id="generated-image-{{i}}" src="{{url_for('static', filename='assets/blank_image.png')}}" class="generated-image"
-             onclick="document.getElementById('generated-image-{{i}}').classList.toggle('selected-image');">
-      </div>
-    {% endfor %}
-  </div>
 {% endblock content %}
