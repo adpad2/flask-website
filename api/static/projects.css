@@ -1,5 +1,33 @@
 /* Style the columsn in the table */
 .table-column {
   float: left;
-  width: 25%;
+  width: 16%;
+  padding: 0% 2%;
+  justify-content: center;
+}
+
+/* Color every odd column light gray */
+.table-column:nth-child(odd) {
+  background-color: #bbb;
+}
+
+/* Widen the table */
+.table {
+  width: 1100px;
+}
+
+/* Center the header text in each column*/
+.table-header {
+  text-align: center;
+}
+
+/* Change default link styling to use navy blue color */
+.table-header > a, .table-header > i {
+  color: #202A44;
+  text-decoration: none;
+}
+
+/* Change text color to a lighter shade of blue when user hovers*/
+.table-header:hover > a, .table-header:hover > i {
+  color: #3c4e7f;
 }
