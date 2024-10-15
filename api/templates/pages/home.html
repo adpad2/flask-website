@@ -1,11 +1,20 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Home{% endblock title %}</h1>
+  <link rel="stylesheet" href="{{url_for('static', filename='home.css')}}">
+  <h1>{% block title %}My Personal Website{% endblock title %}</h1>
+  <script>
+    window.addEventListener('load', function() {
+      /* Set to full opacity when the window finishes loading */
+      document.getElementById('personal-image').style.opacity = 1;
+    });
+  </script>
 {% endblock header %}
 
 {% block content %}
   <p>
-    This is the main page.
+    <img src="{{url_for('static', filename='assets/adarsh_portrait.jpg')}}" id="personal-image"></img>
+    Hi, my name is Adarsh! Welsome to my personal website where I am hosting live demos of my <a href="projects">personal
+    projects</a>. Please feel free to <a href="contact">get in touch</a> with me!
   </p>
 {% endblock content %}
