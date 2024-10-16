@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 
 {% block header %}
+  <link rel="stylesheet" href="{{url_for('static', filename='skills.css')}}">
   <h1>{% block title %}Skills{% endblock title %}</h1>
 {% endblock header %}
 
 {% block content %}
-  <p>Skills placeholder</p>
+  <div class="skill">
+    <img src="{{url_for('static', filename='assets/github_logo.png')}}"></img>
+    <h3>Skill Placeholder</h3>
+    <p>I am really good at this skill</p>
+  </div>
 {% endblock content %}

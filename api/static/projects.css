@@ -1,9 +1,10 @@
 /* Style the columsn in the table */
 .table-column {
   float: left;
-  width: 16%;
-  padding: 0% 2%;
+  width: 18%;
+  padding: 0% 1%;
   justify-content: center;
+  flex: 1;
 }
 
 /* Color every odd column light gray */
@@ -14,6 +15,7 @@
 /* Widen the table */
 .table {
   width: 1100px;
+  display: flex;
 }
 
 /* Center the header text in each column*/
