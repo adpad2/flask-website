@@ -6,9 +6,24 @@
 {% endblock header %}
 
 {% block content %}
-  <div class="skill">
-    <img src="{{url_for('static', filename='assets/github_logo.png')}}"></img>
-    <h3>Skill Placeholder</h3>
-    <p>I am really good at this skill</p>
+  <div class="skills-container">
+    <div class="skill">
+      <img src="{{url_for('static', filename='assets/github_logo.png')}}" class="skills-logo"></img>
+      <h3 class="skill-name">GitHub</h3>
+      <p class="skill-description">
+        I have considerable experience working with GitHub through my internship at Prasad Research Inc. and my
+        personal projects. Using the version control capabilities of GitHub taught me the rigorous industry standards
+        for maintaining and updating software.
+      </p>
+    </div>
+    <div class="skill">
+      <img src="{{url_for('static', filename='assets/python_logo.webp')}}" class="skills-logo"></img>
+      <h3 class="skill-name">Python</h3>
+      <p class="skill-description">
+        Python is the main language I use for my personal projects. This has given me mastery over Python syntax
+        along with a deep understanding of the Python interpreter. I am comfortable writing efficient algorithms,
+        using advanced data structures, and solving complex problems with Python.
+      </p>
+    </div>
   </div>
 {% endblock content %}

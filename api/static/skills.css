@@ -1,0 +1,24 @@
+/* Arrange as many skills in a row as possible before overflowing to the next line */
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Correctly size the logos */
+.skills-logo {
+  height: 100px;
+  width: 100px;
+  display: block;
+  margin: auto;
+}
+
+/* Correctly size the skill container */
+.skill {
+  width: 400px;
+}
+
+/* Center the text for skill name and description */
+.skill-name, .skill-description {
+  text-align: center;
+  margin: 5px;
+}
