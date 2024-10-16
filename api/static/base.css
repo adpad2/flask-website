@@ -3,8 +3,8 @@ h1 {
   font-size: 40px;
 }
 
-/* Increase the size of all paragraphs */
-p {
+/* Increase the size of all paragraphs and list bullets */
+p, li {
   font-size: 20px;
 }
 
