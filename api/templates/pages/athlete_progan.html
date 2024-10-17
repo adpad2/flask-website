@@ -2,6 +2,7 @@
 
 {% block header %}
   <link rel="stylesheet" href="{{url_for('static', filename='athlete_progan.css')}}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <h1>{% block title %}Athlete ProGAN{% endblock title %}</h1>
 {% endblock header %}
 
@@ -44,17 +45,62 @@
       </div>
     {% endfor %}
   </div>
-  <div class="info-dropdown">
-    <button class="dropdown-button" onclick="toggleDropdown('dropdown-content-1');"><h3>Neural Network Architecture</h3></button>
-    <div class="info-dropdown-content" id="dropdown-content-1">
-      <p>Neural network architecture placeholder.</p>
+  <div id="info-section">
+    <div class="info-dropdown">
+      <button class="dropdown-button" onclick="toggleDropdown('dropdown-content-1');">
+        <h3>Neural Network Architecture</h3>
+      </button>
+      <div class="info-dropdown-content" id="dropdown-content-1">
+        <p>This image generator using the ProGAN (Progressive Generative Adversarial Network) architecture
+          <a href="#cite1">[1]</a></sup>. The generator consists of 7 convolutional layers with a total of
+          10 million trainable parameters that produce a (3 x 128 x 128) image.</p>
+        <p>The input to the neural network is a length 80 vector. The first 32 elements of the input vector
+          are randomly sampled from a Gaussian distribution. The remaining 48 elements are composed of 3
+          trainable embeddings (16 elements each). The first trainable embedding influences the team jersey,
+          the second influences the build of the player, and the third influences the skin tone of the player.
+          Given a target team jersey, build, and skin tone, the input vector is created by concatenating the
+          random input with the 3 embedding vectors.</p>
+        <p>The first layer of the neural network takes in this input vector and maps it to a (256 x 4 x 4)
+          tensor using a Conv2DTranspose operation. The next 5 layers of the neural network upsample the image
+          by 2x using linear interpolation followed by 2 Conv2D layers that introduce fine details into the
+          upsampled tensor - the output of these 5 layers is a (64 x 128 x 128) tensor. The final layer of the
+          neural network converts the (n x 128 x 128) tensor into a (3 x 128 x 128) image using a channel-wise
+          convolution that maps the 64 channels into 3 channels (i.e. RGB).</p>
+      </div>
+    </div>
+    <div class="info-dropdown">
+      <button class="dropdown-button" onclick="toggleDropdown('dropdown-content-2');">
+        <h3>Potential Further Improvements</h3>
+      </button>
+      <div class="info-dropdown-content" id="dropdown-content-2">
+        <ul>
+          <li>One of largest constraints on the quality of the neural network was the computation resources
+            available to train it. The model was trained on the Google Cloud Compute Engine which offers a
+            maximum of 8 CPUs on a free account. I tried parallelizing the training using both model and data
+            parallelism. Model parallelism took longer because the relatively small size of the model resulted
+            in the communication costs outweighing the gain from allocating different layers to different CPUs.
+            Data parallelism did speed up training for the earlier layers (up to and including generating 32x32
+            images). For larger image sizes, a smaller batch size was used to improve convergence which
+            eliminated the faster training time facilitated by data parallelism. Using more intelligent
+            parallelizing techniques such as FlexFlow <a href="#cite2">[2]</a></sup> to parallelize the sample,
+            attribute, operator, and parameter dimensions would allow for training a larger model more
+            efficiently.</li>
+          <li>While training the later layers of the ProGAN, a significant discrepancy between the critic loss
+            for fake and real images was observed. This implies that the critic was more powerful than the
+            generator and an equilibrium state was no longer present between the two models. Reducing the number
+            of channels in each hidden layer of the critic might or conversely increasing the number of channels
+            in each hidden layer of the generator may correct this and lead to more stable training.</li>
+        </ul>
+      </div>
     </div>
   </div>
-  <div class="info-dropdown">
-    <button class="dropdown-button" onclick="toggleDropdown('dropdown-content-2');"><h3>Potential Further Improvements</h3></button>
-    <div class="info-dropdown-content" id="dropdown-content-2">
-      <p>Potential further improvements placeholder.</p>
-    </div>
+  <div id="references">
+    <ol id="citation-list">
+      <li id="cite1">Tero Karras, Timo Aila, Samuli Laine, Jaakko Lehtinen. <em>Progressive Growing of GANs for
+        Improved Quality, Stability, and Variation</em>, 2018.</li>
+      <li id="cite2">Zhihao Jia, Matei Zaharia, Alex Aiken. <em>Beyond Data and Model Parallelism for Deep Neural
+        Networks</em>, 2018.</li>
+    </ol>
   </div>
   <script>
       document.getElementById('generate-form').addEventListener('submit', function(event) {

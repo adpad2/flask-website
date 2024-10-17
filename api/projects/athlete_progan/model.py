@@ -127,7 +127,7 @@ class Generator(nn.Module):
         super(Generator, self).__init__()
 
         # A block that takes a tensor of shape (z_dim x 1 x 1) and converts it into a tensor of
-        # shape (embedding_size x 4 x 4).
+        # shape (in_channels x 4 x 4).
         self.initial = nn.Sequential(
             # Shape: ((z_dim + 3 * embedding_size), 1, 1).
             # 3 embeddings will be concatenated with the input vector, so the size of the vecotr will

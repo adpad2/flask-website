@@ -52,7 +52,7 @@
 }
 
 /* Style the caret in dropdowns to be to the far right and not show by default */
-.fa-caret-right {
+.tab .fa-caret-right {
   opacity: 0;
   display: inline;
 }

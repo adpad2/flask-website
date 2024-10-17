@@ -28,7 +28,7 @@
 .dropdown-button {
   background-color: #bbb;
   color: black;
-  width: 100%;
+  width: 1040px;
   padding: 10px;
   font-size: 16px;
   border: none;
@@ -37,8 +37,7 @@
 
 .info-dropdown {
   display: block;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 /* Dropdown content which is hidden by default */
@@ -47,10 +46,39 @@
   background-color: #f9f9f9;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   padding: 5px 20px;
+  width: 90%;
 }
 
 /* Change the color of the dropdown button when the dropdown content is shown */
 .info-dropdown:hover .dropdown-button {
   background-color: #666;
   color: white;
+}
+
+.dropdown-button h3 {
+  display: inline;
+}
+
+#info-section {
+  margin-top: 50px;
+}
+
+#references {
+  margin-right: 75px;
+}
+
+#citation-list {
+  counter-reset: citation;
+  list-style: none;
+}
+
+#citation-list li {
+  counter-increment: citation; /* Increment the counter */
+  margin-bottom: 10px; /* Space between items */
+  text-indent: -25px;
+}
+
+#citation-list li::before {
+  content: "[" counter(citation) "] "; /* Format the bullet points */
+  font-weight: bold;
 }
