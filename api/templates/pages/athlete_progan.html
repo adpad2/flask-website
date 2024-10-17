@@ -44,6 +44,18 @@
       </div>
     {% endfor %}
   </div>
+  <div class="info-dropdown">
+    <button class="dropdown-button" onclick="toggleDropdown('dropdown-content-1');"><h3>Neural Network Architecture</h3></button>
+    <div class="info-dropdown-content" id="dropdown-content-1">
+      <p>Neural network architecture placeholder.</p>
+    </div>
+  </div>
+  <div class="info-dropdown">
+    <button class="dropdown-button" onclick="toggleDropdown('dropdown-content-2');"><h3>Potential Further Improvements</h3></button>
+    <div class="info-dropdown-content" id="dropdown-content-2">
+      <p>Potential further improvements placeholder.</p>
+    </div>
+  </div>
   <script>
       document.getElementById('generate-form').addEventListener('submit', function(event) {
         // Prevent the default form submission
@@ -96,5 +108,15 @@
           .catch(error => console.error('Error:', error));
         }
       });
+
+      function toggleDropdown(id) {
+        var dropdownContent = document.getElementById(id);
+
+        if (dropdownContent.style.display === 'block') {
+            dropdownContent.style.display = 'none';
+        } else {
+            dropdownContent.style.display = 'block';
+       }
+      }
     </script>
 {% endblock content %}

@@ -24,3 +24,33 @@
   margin-left: -4px;
   margin-top: -4px;
 }
+
+.dropdown-button {
+  background-color: #bbb;
+  color: black;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.info-dropdown {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Dropdown content which is hidden by default */
+.info-dropdown-content {
+  display: none;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 5px 20px;
+}
+
+/* Change the color of the dropdown button when the dropdown content is shown */
+.info-dropdown:hover .dropdown-button {
+  background-color: #666;
+  color: white;
+}

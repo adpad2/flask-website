@@ -15,6 +15,7 @@
 /* Correctly size the skill container */
 .skill {
   width: 350px;
+  margin-bottom: 20px;
 }
 
 /* Center the text for skill name and description */
