@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Education{% endblock title %}</h1>
+{% endblock header %}
+
+{% block content %}
+  <img src="{{url_for('static', filename='assets/uoft_logo.png')}}" style="width: 20%; float: right;"></img>
+  <ul style="width: 70%;">
+    <li>Currently studying at the University of Toronto towards a computer science degree</li>
+    <li>Academic interests include machine learning, data science, and optimization algorithms</li>
+  </ul>
+{% endblock content %}

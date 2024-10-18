@@ -22,3 +22,7 @@ html * {
 button {
   cursor: pointer;
 }
+
+main {
+  width: 85%;
+}

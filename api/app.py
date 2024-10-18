@@ -43,6 +43,10 @@ def football_simulator():
 def experience():
     return render_template("pages/experience.html")
 
+@app.route("/education")
+def education():
+    return render_template("pages/education.html")
+
 @app.route("/skills")
 def skills():
     return render_template("pages/skills.html")

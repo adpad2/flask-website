@@ -6,15 +6,15 @@
 
 /* Correctly size the logos */
 .skills-logo {
-  height: 100px;
-  width: 100px;
+  width: 30%;
+  aspect-ratio: 1;
   display: block;
   margin: auto;
 }
 
 /* Correctly size the skill container */
 .skill {
-  width: 350px;
+  width: 340px;
   margin-bottom: 20px;
 }
 
