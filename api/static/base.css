@@ -18,3 +18,7 @@ div.content {
 html * {
   font-family: 'Fira Sans', sans-serif;
 }
+
+button {
+  cursor: pointer;
+}
