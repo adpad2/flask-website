@@ -3,45 +3,65 @@
 {% block header %}
   <link rel="stylesheet" href="{{url_for('static', filename='athlete_progan.css')}}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <h1>{% block title %}Athlete ProGAN{% endblock title %}</h1>
 {% endblock header %}
 
 {% block content %}
+  <!-- Add help text to guide the user through the image generator features -->
+  <div class="help-dropdown">
+    <div class="help-dropdown-header">
+      <i class="fa fa-fw fa-question"></i>Usage Instructions
+    </div>
+    <div class="help-dropdown-content">
+      <p>Configure the dropdowns to your preferences and click "Generate Images" to see the results!</p>
+      <p>Select a single image (a navy blue outline will appear) and click "Upscale Images", using shift-click
+        instead to select multiple images. Upscaling is slow and wil ltake ~10 seconds per image.</p>
+      <p>Click "Save Images" to locally save any selected images.</p>
+    </div>
+  </div>
   <!-- Create a form for the user to input their image generation specifications -->
   <form id="generate-form" method="POST">
-    <label for="team">Team:</label>
-    <select id="team" name="team">
-      <!-- Automatically create the dropdown for teams -->
-      {% for team, team_name in zipped_teams %}
-        <option value="{{team}}">{{team_name}}</option>
-      {% endfor %}
-    </select>
-    <br>
-    <label for="skin-tone">Skin Tone:</label>
-    <select id="skin-tone" name="skin-tone">
-      <!-- Automatically create the dropdown for skin tones -->
-      {% for skin_tone, skin_tone_name in zipped_skin_tones %}
-        <option value="{{skin_tone}}">{{skin_tone_name}}</option>
-      {% endfor %}
-    </select>
-    <br>
-    <label for="build">Build:</label>
-    <select id="build" name="build">
-      <!-- Automatically create the dropdown for builds -->
-      {% for build, build_name in zipped_builds %}
-        <option value="{{build}}">{{build_name}}</option>
-      {% endfor %}
-    </select>
-    <br>
-    <button type="submit" value="generate">Generate Images</button>
-    <button type="submit" value="upscale">Upscale Images</button>
+    <div class="user-input">
+      <label for="team">Team:</label>
+      <select id="team" name="team">
+        <!-- Automatically create the dropdown for teams -->
+        {% for team, team_name in zipped_teams %}
+          <option value="{{team}}">{{team_name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="user-input">
+      <label for="skin-tone">Skin Tone:</label>
+      <select id="skin-tone" name="skin-tone">
+        <!-- Automatically create the dropdown for skin tones -->
+        {% for skin_tone, skin_tone_name in zipped_skin_tones %}
+          <option value="{{skin_tone}}">{{skin_tone_name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="user-input">
+      <label for="build">Build:</label>
+      <select id="build" name="build">
+        <!-- Automatically create the dropdown for builds -->
+        {% for build, build_name in zipped_builds %}
+          <option value="{{build}}">{{build_name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="user-input">
+      <button type="submit" value="generate">Generate Images</button>
+      <button type="submit" value="upscale">Upscale Images</button>
+      <button onclick="downloadImages();">Save Images</button>
+    </div>
   </form>
   <!-- Create a grid of images -->
   <div class="grid-container">
     {% for i in range(1, 11) %}
       <div id="grid-item-{{i}}" class="grid-item">
-        <img id="generated-image-{{i}}" src="{{url_for('static', filename='assets/blank_image.png')}}" class="generated-image"
-             onclick="document.getElementById('generated-image-{{i}}').classList.toggle('selected-image');">
+        <img id="generated-image-{{i}}" src="{{url_for('static', filename='assets/blank_image.png')}}"
+             class="generated-image" onclick="toggleImageContainer(event, {{i}});">
       </div>
     {% endfor %}
   </div>
@@ -109,15 +129,15 @@
         // Store the value of the button that activated the submit event
         var actionType = event.submitter.value;
 
-        // Determine the IDs of all the images the user selected
-        const selectedImages = document.querySelectorAll('.selected-image');
-        const selectedImageIds = Array.from(selectedImages).map(item => item.id);
-
         const formData = new FormData(document.getElementById('generate-form'));
-        // For each selected image, add an entry in the form data
-        selectedImageIds.forEach(id => formData.append('ids[]', id))
 
         if (actionType == "generate") {
+          // Determine the IDs of all the images
+          const allImages = document.querySelectorAll('.generated-image');
+          const allImageIds = Array.from(allImages).map(item => item.id);
+          // For each image, add an entry in the form data
+          allImageIds.forEach(id => formData.append('ids[]', id))
+
           // Send the form data to the generate function
           fetch('/generate', {
             method: 'POST',
@@ -126,7 +146,7 @@
           .then(response => response.json())
           .then(data => {
             // Display the images received from the generate function for each selected image ID
-            selectedImageIds.forEach(id => {
+            allImageIds.forEach(id => {
               const imgData = data[id];
               const img = document.getElementById(id);
               img.src = `data:image/png;base64,${imgData}`;
@@ -134,6 +154,12 @@
           })
           .catch(error => console.error('Error:', error));
         } else if (actionType == "upscale") {
+          // Determine the IDs of all the images the user selected
+          const selectedImages = document.querySelectorAll('.selected-image');
+          const selectedImageIds = Array.from(selectedImages).map(item => item.id);
+          // For each selected image, add an entry in the form data
+          selectedImageIds.forEach(id => formData.append('ids[]', id))
+
           // Send the form data to the upscale function
           fetch('/upscale', {
             method: 'POST',
@@ -155,6 +181,27 @@
         }
       });
 
+      function toggleImageContainer(event, i) {
+        const currContainer = document.getElementById(`generated-image-${i}`);
+        const allContainers = document.getElementsByClassName('generated-image');
+        const isSelected = currContainer.classList.contains('selected-image');
+
+        if (event.shiftKey) {
+          // If the user shift-clicked, don't change the selection of the other containers
+          currContainer.classList.toggle('selected-image');
+        } else {
+          Array.from(allContainers).forEach(container => {
+            // Deselect all the image containers
+            container.classList.remove('selected-image');
+          });
+
+          if (!isSelected) {
+            // If the clicked container wasn't already selected, select it
+            currContainer.classList.add('selected-image');
+          }
+        }
+      }
+
       function toggleDropdown(id) {
         var dropdownContent = document.getElementById(id);
 
@@ -163,6 +210,32 @@
         } else {
             dropdownContent.style.display = 'block';
        }
+      }
+
+      function downloadImages() {
+        const selectedImages = document.querySelectorAll('.selected-image');
+        const selectedImageIds = Array.from(selectedImages).map(item => item.id);
+        const zip = new JSZip();
+
+        // Add each selected image to the zip file
+        const promises = selectedImageIds.map(id => {
+          const img = document.getElementById(id);
+          const imgURL = img.src;
+          const imgName = id + '.jpg';
+
+          return fetch(imgURL)
+            .then(response => response.blob())
+            .then(blob => {
+              zip.file(imgName, blob);
+            });
+        });
+
+        // Save the zip file
+        Promise.all(promises).then(() => {
+          zip.generateAsync({type: 'blob'}).then(content => {
+            saveAs(content, 'images.zip');
+          });
+        });
       }
     </script>
 {% endblock content %}

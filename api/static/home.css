@@ -1,10 +1,9 @@
 /* Crop, position, and resize personal image */
 #personal-image {
    width: 40%;
-   aspect-ratio: 1.15;
+   aspect-ratio: 0.9;
    float: right;
    object-fit: cover;
-   margin-right: 120px;
    margin-top: -70px;
    margin-left: 20px;
    opacity: 0;

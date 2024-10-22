@@ -19,7 +19,7 @@ html * {
   font-family: 'Fira Sans', sans-serif;
 }
 
-button {
+button, select {
   cursor: pointer;
 }
 

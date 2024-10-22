@@ -2,8 +2,8 @@
   display: grid;
   /* Arrange the image containers in rows of 5 */
   grid-template-columns: repeat(5, 200px);
-  column-gap: 10px;
-  row-gap: 10px
+  column-gap: 15px;
+  row-gap: 15px
 }
 
 .grid-item {
@@ -17,12 +17,13 @@
 .generated-image {
   height: 234px;
   width: 200px;
+  cursor: pointer;
 }
 
 .selected-image {
-  border: 4px solid #202A44;
-  margin-left: -4px;
-  margin-top: -4px;
+  border: 6px solid #202A44;
+  margin-left: -6px;
+  margin-top: -6px;
 }
 
 .dropdown-button {
@@ -61,10 +62,6 @@
   margin-top: 50px;
 }
 
-#references {
-  margin-right: 75px;
-}
-
 #citation-list {
   counter-reset: citation;
   list-style: none;
@@ -79,4 +76,59 @@
 #citation-list li::before {
   content: "[" counter(citation) "] "; /* Format the bullet points */
   font-weight: bold;
+}
+
+.help-dropdown {
+  width: max-content;
+  margin-bottom: 15px;
+}
+
+.help-dropdown-header {
+  font-size: 20px;
+  color: gray;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+.help-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 5px 20px;
+  width: 90%;
+}
+
+.help-dropdown:hover .help-dropdown-content {
+  display: block;
+  z-index: 1;
+}
+
+.user-input {
+  margin: 5px 5px;
+}
+
+.user-input button {
+  background-color: white;
+  color: black;
+  border: 3px solid #202A44;
+  border-radius: 4px;
+  font-size: inherit;
+  padding: 5px;
+  margin-right: 5px;
+  transition: 0.5s;
+}
+
+.user-input button:hover {
+  background-color: #202A44;
+  color: white;
+}
+
+#generate-form {
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
+.user-input select {
+  font-size: inherit;
 }
