@@ -9,3 +9,29 @@
    opacity: 0;
    transition: 2s;
 }
+
+/* Add a animated gradient background to the reminder button */
+#live-demo-reminder {
+  background: linear-gradient(-45deg, #202A44, #5c76be, #0045ff);
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
+  padding: 20px;
+  width: 55%;
+  font-size: 20px;
+  color: white;
+  border-radius: 10px;
+  border-style: none;
+}
+
+/* Move the gradient as the animation progresses */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+	background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
