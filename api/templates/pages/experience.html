@@ -1,9 +1,22 @@
 {% extends 'base.html' %}
 
 {% block header %}
+  <link rel="stylesheet" href="{{url_for('static', filename='experience.css')}}">
   <h1>{% block title %}Experience{% endblock title %}</h1>
 {% endblock header %}
 
 {% block content %}
-  <p>Experience placeholder</p>
+  <div class="experience-section">
+    <div class="experience-header">
+      <img src="{{url_for('static', filename='assets/prasad_research_logo.png')}}" class="experience-logo"></img>
+      <h2 class="experience-title">Software Developer Intern - Prasad Research Inc. (2020-2024)</h2>
+    </div>
+    <ul class="experience-content">
+      <li>Sole developer of a transaction-minimizing algorithm used by a $10-million hedge fund to reduce turnover by 50%</li>
+      <li>Developed Prasad's unit-test and regression-test framework, used to validate published equity models</li>
+      <li>Researched Markovitz portfolio optimization for use in real-world US equity strategies</li>
+      <li>Used Pandas and SQLite to query financial databases and process data to discover novel patterns in the data</li>
+      <li>Collaborated on large software proejcts with a small team and learned to effectively integrate code</li>
+    </ul>
+  </div>
 {% endblock content %}
