@@ -132,3 +132,24 @@
 .user-input select {
   font-size: inherit;
 }
+
+.popup {
+  position: absolute;
+  background-color: #5c76be;
+  top: 160px;
+  left: 100px;
+  width: 200px;
+  padding: 5px;
+  border-radius: 5px;
+  visibility: hidden;
+}
+
+.popup-triangle {
+    position: absolute;
+    top: -18px;
+    left: 95px;
+    width: 0;
+    height: 0;
+    border: solid 10px;
+    border-color: transparent transparent #5c76be transparent;
+}
